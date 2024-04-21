@@ -6,6 +6,7 @@ int main()
 {
   unsigned char r[16];
   int i;
+  FILE *file;
 
   // Seed the random number generator for demonstration purposes.
   // For cryptographic purposes, you would use a cryptographically secure RNG.
@@ -31,13 +32,19 @@ int main()
     }
   }
 
-  // Print the generated key in hexadecimal format
-  printf("Generated secret key: ");
-  for (i = 0; i < 16; i++)
+  // Open file for writing
+  file = fopen("r", "wb");
+  if (file == NULL)
   {
-    printf("%02x ", r[i]);
+    perror("Failed to open file");
+    return 1;
   }
-  printf("\n");
+
+  // Write the generated key to the file
+  fwrite(r, 1, sizeof(r), file);
+  fclose(file);
+
+  printf("Generated secret key has been written to file 'r'.\n");
 
   return 0;
 }
